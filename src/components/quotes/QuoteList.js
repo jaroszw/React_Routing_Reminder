@@ -22,8 +22,6 @@ const QuoteList = (props) => {
   const searchParams = new URLSearchParams(location.search);
   const isSortAsc = searchParams.get('sort') === 'asc';
 
-  console.log(location);
-
   const changeSortingHandler = () => {
     // or useRouteMatch with .path
     // history.push(`${match.path}?sort=` + (isSortAsc ? 'des' : 'asc'));
