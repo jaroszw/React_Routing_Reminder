@@ -1,24 +1,33 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import classes from './NewCommentForm.module.css';
 
 import useHttp from '../../hooks/use-http';
 import { addComment } from '../../lib/api';
+import LoadingSpinner from '../UI/LoadingSpinner';
 
 const NewCommentForm = (props) => {
   const commentTextRef = useRef();
-  const { status, sendRequest } = useHttp(addComment);
-  console.log(status);
+
+  const quoteId = props.quoteId;
+
+  const { status, sendRequest, error } = useHttp(addComment);
+  const { onAddedComment } = props;
+
+  useEffect(() => {
+    if (status === 'completed' && !error) {
+      onAddedComment();
+    }
+  }, [status, error, onAddedComment]);
 
   const submitFormHandler = async (event) => {
     event.preventDefault();
 
-    const commentId = await sendRequest(commentTextRef.current.value);
-    console.log(commentId);
+    const enteredText = commentTextRef.current.value;
 
     // optional: Could validate here
-
     // send comment to server
+    sendRequest({ commentData: { text: enteredText }, quoteId: quoteId });
   };
 
   return (
@@ -30,6 +39,11 @@ const NewCommentForm = (props) => {
       <div className={classes.actions}>
         <button className="btn">Add Comment</button>
       </div>
+      {status === 'pending' && (
+        <div className="centered">
+          <LoadingSpinner />
+        </div>
+      )}
     </form>
   );
 };

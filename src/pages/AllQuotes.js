@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import QuoteList from '../components/quotes/QuoteList';
 import useHttp from '../hooks/use-http';
 import { getAllQuotes } from '../lib/api';
@@ -12,8 +12,6 @@ import NoQuotesFound from '../components/quotes/NoQuotesFound';
 // ];
 
 const AllQuotes = () => {
-  const [quotes, setquotes] = useState([]);
-
   const {
     sendRequest,
     status,

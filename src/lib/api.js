@@ -72,7 +72,6 @@ export async function addComment(requestData) {
     throw new Error(data.message || 'Could not add comment.');
   }
 
-  console.log(data);
   return { commentId: data.name };
 }
 
